@@ -45,6 +45,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "test": "vitest run",
+    "lint": "eslint . --ext .ts",
     "build": "rollup -c rollup.config.ts --configPlugin @rollup/plugin-typescript",
     "preview": "serve"
   },
