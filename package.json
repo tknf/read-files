@@ -1,0 +1,72 @@
+{
+  "name": "@tknf-labs/read-files",
+  "version": "0.1.0",
+  "license": "MIT",
+  "description": "Utility for async use of FileReader API on browser",
+  "author": "TKNF LLC <dev@tknf.net>",
+  "homepage": "https://github.com/tknf/read-files",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tknf/read-files"
+  },
+  "bugs": {
+    "url": "https://github.com/tknf/read-files/issues"
+  },
+  "contributors": [
+    {
+      "name": "Tasuku Kuribayashi",
+      "email": "Kuribayashi@tknf.net"
+    }
+  ],
+  "keywords": [
+    "browser",
+    "file",
+    "javascript",
+    "typescript"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "@tknf-labs:registry": "https://registry.npmjs.org"
+  },
+  "main": "./dist/index.esm.js",
+  "module": "./dist/index.esm.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.esm.js",
+      "module": "./dist/index.esm.js",
+      "browser": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "clean": "rimraf dist",
+    "test": "vitest run",
+    "build": "rollup -c rollup.config.ts --configPlugin @rollup/plugin-typescript",
+    "preview": "serve"
+  },
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^11.1.1",
+    "@tknf-labs/eslint-config": "^2.1.0",
+    "@tknf-labs/prettier-config": "^2.1.0",
+    "eslint": "^8.43.0",
+    "jsdom": "^22.1.0",
+    "prettier": "^2.8.8",
+    "rimraf": "^5.0.1",
+    "rollup": "^3.25.1",
+    "rollup-plugin-terser": "^7.0.2",
+    "serve": "^14.2.0",
+    "tsup": "^7.0.0",
+    "typescript": "^5.1.3",
+    "vitest": "^0.32.2"
+  },
+  "prettier": "@tknf-labs/prettier-config",
+  "eslintConfig": {
+    "extends": [
+      "@tknf-labs/eslint-config/node"
+    ]
+  }
+}
