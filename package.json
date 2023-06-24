@@ -47,7 +47,8 @@
     "test": "vitest run",
     "lint": "eslint . --ext .ts",
     "build": "rollup -c rollup.config.ts --configPlugin @rollup/plugin-typescript",
-    "preview": "serve"
+    "preview": "serve",
+    "prepublishOnly": "npm run build"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^11.1.1",
