@@ -18,8 +18,9 @@ jobs:
         uses: ./.github/workflows/install
       - name: Run lint and tests
         run: |
-          pnpm run lint
-          pnpm prettier:check
+          pnpm run lint:ci
+          pnpm run format:ci
+          pnpm run typecheck
           pnpm run build
           pnpm run test
 
