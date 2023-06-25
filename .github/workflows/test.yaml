@@ -15,7 +15,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Install
-        uses: ./install/action.yaml
+        uses: ./.github/workflows/install
       - name: Run lint and tests
         run: |
           pnpm run lint

@@ -14,7 +14,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Install
-        uses: ./install/action.yaml
+        uses: ./.github/workflows/install
       - name: Build
         run: |
           pnpm run clean
