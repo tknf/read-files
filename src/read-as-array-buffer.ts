@@ -38,3 +38,21 @@ export async function readAsArrayBuffer(data: File | Blob, options: ReadFileProm
     reader.readAsArrayBuffer(data);
   });
 }
+
+/**
+ * Async function to read a file as an ArrayBuffer.
+ * Use if you do not want to throw an error.
+ * @param data File or Blob to read
+ * @param options Read options
+ */
+export async function safeReadAsArrayBuffer(data: File | Blob, options: ReadFilePromiseOptions<ArrayBuffer> = {}) {
+  try {
+    const result = await readAsArrayBuffer(data, options);
+    return { result, error: null } as const;
+  } catch (error: any) {
+    if (error instanceof DOMException) {
+      return { result: null, error } as const;
+    }
+    return { result: null, error: new DOMException(error.message, "ReadFileError") };
+  }
+}

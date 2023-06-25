@@ -1,6 +1,6 @@
 {
   "name": "@tknf-labs/read-files",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "license": "MIT",
   "description": "Utility for async use of FileReader API on browser",
   "author": "TKNF LLC <dev@tknf.net>",

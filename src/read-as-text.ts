@@ -41,3 +41,24 @@ export async function readAsText(
     reader.readAsText(data, encoding);
   });
 }
+
+/**
+ * Async function to read a file as an text.
+ * Use if you do not want to throw an error.
+ * @param data File or Blob to read
+ * @param options Read options
+ */
+export async function safeReadAsText(
+  data: File | Blob,
+  options: ReadFilePromiseOptions<string> & { encoding?: string } = {}
+) {
+  try {
+    const result = await readAsText(data, options);
+    return { result, error: null } as const;
+  } catch (error: any) {
+    if (error instanceof DOMException) {
+      return { result: null, error } as const;
+    }
+    return { result: null, error: new DOMException(error.message, "ReadFileError") };
+  }
+}

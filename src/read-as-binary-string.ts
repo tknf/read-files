@@ -38,3 +38,21 @@ export async function readAsBinaryString(data: File | Blob, options: ReadFilePro
     reader.readAsBinaryString(data);
   });
 }
+
+/**
+ * Async function to read a file as an binary string.
+ * Use if you do not want to throw an error.
+ * @param data File or Blob to read
+ * @param options Read options
+ */
+export async function safeReadAsBinaryString(data: File | Blob, options: ReadFilePromiseOptions<string> = {}) {
+  try {
+    const result = await readAsBinaryString(data, options);
+    return { result, error: null } as const;
+  } catch (error: any) {
+    if (error instanceof DOMException) {
+      return { result: null, error } as const;
+    }
+    return { result: null, error: new DOMException(error.message, "ReadFileError") };
+  }
+}

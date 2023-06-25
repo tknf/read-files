@@ -38,3 +38,21 @@ export async function readAsDataUrl(data: File | Blob, options: ReadFilePromiseO
     reader.readAsDataURL(data);
   });
 }
+
+/**
+ * Async function to read a file as an data url.
+ * Use if you do not want to throw an error.
+ * @param data File or Blob to read
+ * @param options Read options
+ */
+export async function safeReadAsDataUrl(data: File | Blob, options: ReadFilePromiseOptions<string> = {}) {
+  try {
+    const result = await readAsDataUrl(data, options);
+    return { result, error: null } as const;
+  } catch (error: any) {
+    if (error instanceof DOMException) {
+      return { result: null, error } as const;
+    }
+    return { result: null, error: new DOMException(error.message, "ReadFileError") };
+  }
+}
