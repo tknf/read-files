@@ -64,7 +64,7 @@
     "rollup-plugin-terser": "^7.0.2",
     "serve": "^14.2.0",
     "tsup": "^7.1.0",
-    "typescript": "^5.1.3",
+    "typescript": "^5.1.5",
     "vitest": "^0.32.2"
   },
   "prettier": "@tknf-labs/prettier-config",
