@@ -1,7 +1,9 @@
+import { readFileSync } from "node:fs";
 import type { RollupOptions } from "rollup";
 import typescript from "@rollup/plugin-typescript";
-import { terser } from "rollup-plugin-terser";
-import packageJson from "./package.json" assert { type: "json" };
+import terser from "@rollup/plugin-terser";
+
+const packageJson = JSON.parse(readFileSync("./package.json", "utf-8"));
 
 const date = {
   day: new Date().getDate(),
