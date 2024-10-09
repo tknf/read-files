@@ -1,0 +1,58 @@
+name: "CI"
+
+on:
+  pull_request:
+    types:
+      - "opened"
+      - "synchronize"
+      - "reopened"
+      - "closed"
+    paths-ignore:
+      - "**/*.md"
+      - ".vscode/**"
+      - ".github/dependabot.yaml"
+
+jobs:
+  lint:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    name: "Lint"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: "./.github/actions/setup"
+
+      - name: "Install dependencies"
+        run: pnpm install
+
+      - name: "Build"
+        run: pnpm run build
+
+      - name: "Lint"
+        run: pnpm run lint:ci
+
+      - name: "Typecheck"
+        run: pnpm run typecheck
+
+      - name: "Check workflow files"
+        run: |
+          bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
+          ./actionlint -color -shellcheck=""
+
+  test:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    name: "Test"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup
+
+      - name: "Install dependencies"
+        run: pnpm install
+
+      - name: "Build"
+        run: pnpm run build
+
+      - name: "Test"
+        run: pnpm run test
