@@ -5,5 +5,8 @@ export default defineConfig({
     include: ["**/*.test.ts"],
     globals: true,
     environment: "jsdom",
+    coverage: {
+      provider: "istanbul",
+    },
   },
 });

@@ -1,6 +1,7 @@
 {
   "name": "@tknf-labs/read-files",
   "type": "module",
+  "packageManager": "pnpm@9.12.0",
   "version": "1.2.0",
   "license": "MIT",
   "description": "Utility for async use of FileReader API on browser",
@@ -46,6 +47,8 @@
   "scripts": {
     "clean": "rimraf dist",
     "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:watch:coverage": "vitest --coverage",
     "lint:ci": "eslint . --ext .ts --cache",
     "format:ci": "prettier --check src",
     "typecheck": "tsc --noEmit",
@@ -58,6 +61,7 @@
     "@rollup/plugin-typescript": "^12.1.0",
     "@tknf-labs/eslint-config": "^2.1.0",
     "@tknf-labs/prettier-config": "^2.1.0",
+    "@vitest/coverage-istanbul": "2.1.2",
     "eslint": "^8.57.1",
     "jsdom": "^22.1.0",
     "prettier": "^2.8.8",
