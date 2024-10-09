@@ -1,6 +1,7 @@
 {
   "name": "@tknf-labs/read-files",
   "type": "module",
+  "packageManager": "pnpm@9.12.0",
   "version": "1.2.0",
   "license": "MIT",
   "description": "Utility for async use of FileReader API on browser",
