@@ -1,6 +1,7 @@
 <div align="center">
-<h1>@tknf/read-files</h1>
-<p>Modern, Promise-based utility for reading files in the browser using the FileReader API</p>
+  <img src="https://raw.githubusercontent.com/tknf/read-files/main/docs/read-files.png" alt="Snowflake Logo" width="250" height="auto">
+  <h1>@tknf/read-files</h1>
+  <p>Modern, Promise-based utility for reading files in the browser using the FileReader API</p>
 </div>
 
 [![Github Workflow Status](https://img.shields.io/github/actions/workflow/status/tknf/read-files/ci.yaml?branch=main)](https://github.com/tknf/read-files/actions)

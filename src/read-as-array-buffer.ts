@@ -27,26 +27,47 @@ export async function readAsArrayBuffer(
 	const { fileReader, onLoad, onLoadStart, onLoadEnd, onProgress, onError } = options;
 	const reader = fileReader ?? new FileReader();
 	return new Promise<ArrayBuffer>((resolve, reject) => {
-		reader.addEventListener("load", (e) => {
+		const cleanup = () => {
+			reader.removeEventListener("load", loadHandler);
+			reader.removeEventListener("error", errorHandler);
+			if (onLoadStart) {
+				reader.removeEventListener("loadstart", onLoadStart);
+			}
+			if (onProgress) {
+				reader.removeEventListener("progress", onProgress);
+			}
+		};
+
+		const loadHandler = (e: ProgressEvent<FileReader>) => {
 			const { result } = reader;
 			if (!isArrayBuffer(result)) {
+				cleanup();
 				reject(new TypeError("Expected ArrayBuffer result from FileReader"));
 				return;
 			}
 			onLoad?.(e, result);
+			cleanup();
 			resolve(result);
-		});
-		reader.addEventListener("loadend", (e) => {
+		};
+
+		const loadEndHandler = (e: ProgressEvent<FileReader>) => {
 			const { result } = reader;
 			onLoadEnd?.(e, result as ArrayBuffer);
-		});
-		reader.addEventListener("error", (e) => {
+			reader.removeEventListener("loadend", loadEndHandler);
+		};
+
+		const errorHandler = (e: ProgressEvent<FileReader>) => {
 			const { error } = reader;
 			if (error) {
 				onError?.(e, error);
 			}
+			cleanup();
 			reject(error);
-		});
+		};
+
+		reader.addEventListener("load", loadHandler);
+		reader.addEventListener("loadend", loadEndHandler);
+		reader.addEventListener("error", errorHandler);
 		if (onLoadStart) {
 			reader.addEventListener("loadstart", onLoadStart);
 		}
