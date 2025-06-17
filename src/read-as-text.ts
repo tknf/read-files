@@ -16,33 +16,30 @@ export interface ReadAsTextOptions extends ReadFilePromiseOptions<string> {
 
 /**
  * Asynchronously reads a File or Blob as text.
- * 
+ *
  * This function provides a Promise-based wrapper around the FileReader API
  * for reading files as text with optional character encoding support.
- * 
+ *
  * @param data - The File or Blob object to read
  * @param options - Configuration options including encoding and event callbacks
  * @returns A Promise that resolves to the file content as a string
  * @throws TypeError if the FileReader result is not a string
  * @throws DOMException if the file reading operation fails
- * 
+ *
  * @example
  * ```typescript
  * const file = new File(['Hello World'], 'hello.txt', { type: 'text/plain' });
  * const text = await readAsText(file);
  * console.log(text); // "Hello World"
  * ```
- * 
+ *
  * @example
  * ```typescript
  * // With encoding
  * const text = await readAsText(file, { encoding: 'UTF-8' });
  * ```
  */
-export async function readAsText(
-	data: File | Blob,
-	options: ReadAsTextOptions = {}
-) {
+export async function readAsText(data: File | Blob, options: ReadAsTextOptions = {}) {
 	const { fileReader, onLoad, onLoadStart, onLoadEnd, onProgress, onError, encoding } = options;
 	const reader = fileReader ?? new FileReader();
 	return new Promise<string>((resolve, reject) => {
@@ -78,19 +75,19 @@ export async function readAsText(
 
 /**
  * Safely reads a File or Blob as text without throwing errors.
- * 
+ *
  * This function wraps readAsText in a try-catch and returns a result object
  * containing either the successful result or error information.
- * 
+ *
  * @param data - The File or Blob object to read
  * @param options - Configuration options including encoding and event callbacks
  * @returns A Promise that resolves to an object containing either result or error
- * 
+ *
  * @example
  * ```typescript
  * const file = new File(['Hello World'], 'hello.txt', { type: 'text/plain' });
  * const { result, error } = await safeReadAsText(file);
- * 
+ *
  * if (error) {
  *   console.error('Failed to read file:', error.message);
  * } else {
@@ -98,10 +95,7 @@ export async function readAsText(
  * }
  * ```
  */
-export async function safeReadAsText(
-	data: File | Blob,
-	options: ReadAsTextOptions = {}
-) {
+export async function safeReadAsText(data: File | Blob, options: ReadAsTextOptions = {}) {
 	try {
 		const result = await readAsText(data, options);
 		return { result, error: null } as const;

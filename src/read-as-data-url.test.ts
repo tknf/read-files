@@ -48,76 +48,70 @@ describe("readAsDataUrl", () => {
 	test("should throw TypeError when FileReader result is not string", async () => {
 		const file = new File(["foo"], "foo.txt", { type: "text/plain" });
 		const mockFileReader = new FileReader();
-		
-		Object.defineProperty(mockFileReader, 'readAsDataURL', {
-			value: function() {
+
+		Object.defineProperty(mockFileReader, "readAsDataURL", {
+			value: function () {
 				setTimeout(() => {
-					Object.defineProperty(this, 'result', { value: new ArrayBuffer(8) });
-					this.dispatchEvent(new ProgressEvent('load'));
+					Object.defineProperty(this, "result", { value: new ArrayBuffer(8) });
+					this.dispatchEvent(new ProgressEvent("load"));
 				}, 0);
-			}
+			},
 		});
 
-		await expect(readAsDataUrl(file, { fileReader: mockFileReader }))
-			.rejects
-			.toThrow("Expected string result from FileReader");
+		await expect(readAsDataUrl(file, { fileReader: mockFileReader })).rejects.toThrow(
+			"Expected string result from FileReader"
+		);
 	});
 
 	test("should reject when FileReader encounters an error", async () => {
 		const file = new File(["foo"], "foo.txt", { type: "text/plain" });
 		const mockFileReader = new FileReader();
-		
-		Object.defineProperty(mockFileReader, 'readAsDataURL', {
-			value: function() {
+
+		Object.defineProperty(mockFileReader, "readAsDataURL", {
+			value: function () {
 				setTimeout(() => {
 					const error = new DOMException("Mock error", "NotReadableError");
-					Object.defineProperty(this, 'error', { value: error });
-					this.dispatchEvent(new ProgressEvent('error'));
+					Object.defineProperty(this, "error", { value: error });
+					this.dispatchEvent(new ProgressEvent("error"));
 				}, 0);
-			}
+			},
 		});
 
-		await expect(readAsDataUrl(file, { fileReader: mockFileReader }))
-			.rejects
-			.toThrow("Mock error");
+		await expect(readAsDataUrl(file, { fileReader: mockFileReader })).rejects.toThrow("Mock error");
 	});
 
 	test("should reject with null when FileReader error is null", async () => {
 		const file = new File(["foo"], "foo.txt", { type: "text/plain" });
 		const mockFileReader = new FileReader();
-		
-		Object.defineProperty(mockFileReader, 'readAsDataURL', {
-			value: function() {
+
+		Object.defineProperty(mockFileReader, "readAsDataURL", {
+			value: function () {
 				setTimeout(() => {
-					Object.defineProperty(this, 'error', { value: null });
-					this.dispatchEvent(new ProgressEvent('error'));
+					Object.defineProperty(this, "error", { value: null });
+					this.dispatchEvent(new ProgressEvent("error"));
 				}, 0);
-			}
+			},
 		});
 
-		await expect(readAsDataUrl(file, { fileReader: mockFileReader }))
-			.rejects
-			.toBe(null);
+		await expect(readAsDataUrl(file, { fileReader: mockFileReader })).rejects.toBe(null);
 	});
 
 	test("should not call onError when error is null", async () => {
 		const file = new File(["foo"], "foo.txt", { type: "text/plain" });
 		const mockFileReader = new FileReader();
 		const onError = vi.fn();
-		
-		Object.defineProperty(mockFileReader, 'readAsDataURL', {
-			value: function() {
+
+		Object.defineProperty(mockFileReader, "readAsDataURL", {
+			value: function () {
 				setTimeout(() => {
-					Object.defineProperty(this, 'error', { value: null });
-					this.dispatchEvent(new ProgressEvent('error'));
+					Object.defineProperty(this, "error", { value: null });
+					this.dispatchEvent(new ProgressEvent("error"));
 				}, 0);
-			}
+			},
 		});
 
-		await expect(readAsDataUrl(file, { fileReader: mockFileReader, onError }))
-			.rejects
-			.toBe(null);
-		
+		await expect(readAsDataUrl(file, { fileReader: mockFileReader, onError })).rejects.toBe(null);
+
 		expect(onError).not.toHaveBeenCalled();
 	});
 });
@@ -173,15 +167,15 @@ describe("safeReadAsDataUrl", () => {
 	test("should handle FileReader errors gracefully", async () => {
 		const file = new File(["foo"], "foo.txt", { type: "text/plain" });
 		const mockFileReader = new FileReader();
-		
-		Object.defineProperty(mockFileReader, 'readAsDataURL', {
-			value: function() {
+
+		Object.defineProperty(mockFileReader, "readAsDataURL", {
+			value: function () {
 				setTimeout(() => {
 					const error = new DOMException("Mock error", "NotReadableError");
-					Object.defineProperty(this, 'error', { value: error });
-					this.dispatchEvent(new ProgressEvent('error'));
+					Object.defineProperty(this, "error", { value: error });
+					this.dispatchEvent(new ProgressEvent("error"));
 				}, 0);
-			}
+			},
 		});
 
 		const { result, error } = await safeReadAsDataUrl(file, { fileReader: mockFileReader });
@@ -193,14 +187,14 @@ describe("safeReadAsDataUrl", () => {
 	test("should handle TypeError gracefully", async () => {
 		const file = new File(["foo"], "foo.txt", { type: "text/plain" });
 		const mockFileReader = new FileReader();
-		
-		Object.defineProperty(mockFileReader, 'readAsDataURL', {
-			value: function() {
+
+		Object.defineProperty(mockFileReader, "readAsDataURL", {
+			value: function () {
 				setTimeout(() => {
-					Object.defineProperty(this, 'result', { value: new ArrayBuffer(8) });
-					this.dispatchEvent(new ProgressEvent('load'));
+					Object.defineProperty(this, "result", { value: new ArrayBuffer(8) });
+					this.dispatchEvent(new ProgressEvent("load"));
 				}, 0);
-			}
+			},
 		});
 
 		const { result, error } = await safeReadAsDataUrl(file, { fileReader: mockFileReader });
@@ -212,15 +206,15 @@ describe("safeReadAsDataUrl", () => {
 	test("should handle non-DOMException errors gracefully", async () => {
 		const file = new File(["foo"], "foo.txt", { type: "text/plain" });
 		const mockFileReader = new FileReader();
-		
-		Object.defineProperty(mockFileReader, 'readAsDataURL', {
-			value: function() {
+
+		Object.defineProperty(mockFileReader, "readAsDataURL", {
+			value: function () {
 				setTimeout(() => {
 					const error = new Error("Generic error");
-					Object.defineProperty(this, 'error', { value: error });
-					this.dispatchEvent(new ProgressEvent('error'));
+					Object.defineProperty(this, "error", { value: error });
+					this.dispatchEvent(new ProgressEvent("error"));
 				}, 0);
-			}
+			},
 		});
 
 		const { result, error } = await safeReadAsDataUrl(file, { fileReader: mockFileReader });

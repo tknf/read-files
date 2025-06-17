@@ -3,16 +3,16 @@ import { isString } from "./utils";
 
 /**
  * Asynchronously reads a File or Blob as a binary string.
- * 
+ *
  * This function provides a Promise-based wrapper around the FileReader API
  * for reading files as binary strings, where each byte is represented as a character.
- * 
+ *
  * @param data - The File or Blob object to read
  * @param options - Configuration options including event callbacks
  * @returns A Promise that resolves to the file content as a binary string
  * @throws TypeError if the FileReader result is not a string
  * @throws DOMException if the file reading operation fails
- * 
+ *
  * @example
  * ```typescript
  * const file = new File(['Hello'], 'data.txt', { type: 'text/plain' });
@@ -59,19 +59,19 @@ export async function readAsBinaryString(
 
 /**
  * Safely reads a File or Blob as a binary string without throwing errors.
- * 
+ *
  * This function wraps readAsBinaryString in a try-catch and returns a result object
  * containing either the successful result or error information.
- * 
+ *
  * @param data - The File or Blob object to read
  * @param options - Configuration options including event callbacks
  * @returns A Promise that resolves to an object containing either result or error
- * 
+ *
  * @example
  * ```typescript
  * const file = new File(['Hello'], 'data.txt', { type: 'text/plain' });
  * const { result, error } = await safeReadAsBinaryString(file);
- * 
+ *
  * if (error) {
  *   console.error('Failed to read file:', error.message);
  * } else {

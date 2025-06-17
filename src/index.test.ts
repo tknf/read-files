@@ -17,7 +17,7 @@ describe("index exports", () => {
 
 	test("functions should be callable", async () => {
 		const file = new File(["test"], "test.txt", { type: "text/plain" });
-		
+
 		const arrayBuffer = await lib.readAsArrayBuffer(file);
 		expect(arrayBuffer).toBeInstanceOf(ArrayBuffer);
 
