@@ -1,18 +1,25 @@
 import { defineConfig } from "tsup";
 
-export default defineConfig({
-  entryPoints: ["src/index.ts"],
-  dts: true,
-  clean: true,
-  format: ["esm", "iife"],
-  outExtension(ctx) {
-    let ext = ".js";
-    if (ctx.format === "cjs") ext = ".cjs";
-    if (ctx.format === "esm") ext = ".esm.js";
-    if (ctx.format === "iife") ext = ".js";
-    return {
-      js: ext,
-    };
-  },
-  target: "es2015",
-});
+export default defineConfig([
+	{
+		entry: ["src/index.ts"],
+		format: ["esm", "cjs"],
+		dts: true,
+		clean: true,
+		target: "es2020",
+		platform: "neutral",
+	},
+	{
+		entry: {
+			"read-files": "src/index.ts",
+		},
+		outExtension: () => ({ js: ".min.js" }),
+		format: ["iife"],
+		globalName: "ReadFilePromise",
+		clean: false,
+		target: "es2020",
+		platform: "browser",
+		outDir: "dist",
+		minify: true,
+	},
+]);
