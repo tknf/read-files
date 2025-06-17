@@ -1,58 +1,45 @@
 name: "CI"
-
 on:
+  push:
+    branches: ["main"]
   pull_request:
-    types:
-      - "opened"
-      - "synchronize"
-      - "reopened"
-      - "closed"
+    branches: ["*"]
     paths-ignore:
-      - "**/*.md"
+      - "docs/**"
       - ".vscode/**"
-      - ".github/dependabot.yaml"
+      - "**/*.md"
+      - ".gitignore"
+      - "LICENSE"
 
 jobs:
-  lint:
-    timeout-minutes: 10
+  coverage:
+    name: "Coverage"
     runs-on: ubuntu-latest
-    name: "Lint"
+    needs: [main]
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - run: pnpm install
+      - run: pnpm run test:coverage
 
-      - uses: "./.github/actions/setup"
-
-      - name: "Install dependencies"
-        run: pnpm install
-
-      - name: "Build"
-        run: pnpm run build
-
-      - name: "Lint"
-        run: pnpm run lint:ci
-
-      - name: "Typecheck"
-        run: pnpm run typecheck
-
-      - name: "Check workflow files"
-        run: |
-          bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
-          ./actionlint -color -shellcheck=""
-
-  test:
-    timeout-minutes: 10
+  main:
+    name: "Main"
     runs-on: ubuntu-latest
-    name: "Test"
     steps:
       - uses: actions/checkout@v4
-
-      - uses: ./.github/actions/setup
-
-      - name: "Install dependencies"
-        run: pnpm install
-
-      - name: "Build"
-        run: pnpm run build
-
-      - name: "Test"
-        run: pnpm run test
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - run: pnpm install
+      - run: pnpm run build
+      - run: pnpm run lint
+      - run: pnpm run format
+      - run: pnpm run typecheck

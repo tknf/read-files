@@ -1,39 +1,46 @@
 export type ReadFileResultType = string | ArrayBuffer | null;
 
 /**
- * `ReadFilePromiseOptions` interface declares all options for the async file read function.
+ * Configuration options for file reading operations.
+ * Provides callbacks for various stages of the file reading process.
  */
 export interface ReadFilePromiseOptions<ResultType extends ReadFileResultType> {
-  /**
-   * Can pass a predefined file reader.
-   */
-  fileReader?: FileReader;
+	/**
+	 * Optional pre-configured FileReader instance.
+	 * If not provided, a new FileReader will be created.
+	 */
+	fileReader?: FileReader;
 
-  /**
-   * Event will be fired when a file has been read successfully.
-   * Receives result as an arguments.
-   */
-  onLoad?(event: ProgressEvent<FileReader>, result: ResultType): void;
+	/**
+	 * Callback fired when the file has been read successfully.
+	 * @param event - The progress event from FileReader
+	 * @param result - The successfully read file content
+	 */
+	onLoad?(event: ProgressEvent<FileReader>, result: ResultType): void;
 
-  /**
-   * Event will be fired when a file read operation has begun.
-   */
-  onLoadStart?(event: ProgressEvent<FileReader>): void;
+	/**
+	 * Callback fired when the file read operation begins.
+	 * @param event - The progress event from FileReader
+	 */
+	onLoadStart?(event: ProgressEvent<FileReader>): void;
 
-  /**
-   * Event will be fired when a file read has completed, successfully or not.
-   * Receives result as an arguments.
-   */
-  onLoadEnd?(event: ProgressEvent<FileReader>, result: ResultType): void;
+	/**
+	 * Callback fired when the file read operation completes (success or failure).
+	 * @param event - The progress event from FileReader
+	 * @param result - The file content (may be null on error)
+	 */
+	onLoadEnd?(event: ProgressEvent<FileReader>, result: ResultType): void;
 
-  /**
-   * Event will be fired when periodically as the FileReader reads data.
-   */
-  onProgress?(event: ProgressEvent<FileReader>): void;
+	/**
+	 * Callback fired periodically during the file read operation to report progress.
+	 * @param event - The progress event from FileReader containing progress information
+	 */
+	onProgress?(event: ProgressEvent<FileReader>): void;
 
-  /**
-   * Event will be fired when the read failed due to an error.
-   * Receives `DOMException` as an arguments.
-   */
-  onError?(event: ProgressEvent<FileReader>, error: DOMException): void;
+	/**
+	 * Callback fired when the file read operation fails.
+	 * @param event - The progress event from FileReader
+	 * @param error - The error that occurred during reading
+	 */
+	onError?(event: ProgressEvent<FileReader>, error: DOMException): void;
 }

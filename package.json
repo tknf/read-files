@@ -1,83 +1,59 @@
 {
-  "name": "@tknf-labs/read-files",
-  "type": "module",
-  "packageManager": "pnpm@9.12.0",
-  "version": "1.2.0",
-  "license": "MIT",
-  "description": "Utility for async use of FileReader API on browser",
-  "author": "TKNF LLC <dev@tknf.net>",
-  "homepage": "https://github.com/tknf/read-files",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/tknf/read-files"
-  },
-  "bugs": {
-    "url": "https://github.com/tknf/read-files/issues"
-  },
-  "contributors": [
-    {
-      "name": "Tasuku Kuribayashi",
-      "email": "Kuribayashi@tknf.net"
-    }
-  ],
-  "keywords": [
-    "browser",
-    "file",
-    "javascript",
-    "typescript"
-  ],
-  "publishConfig": {
-    "access": "public",
-    "@tknf-labs:registry": "https://registry.npmjs.org"
-  },
-  "main": "./dist/index.esm.js",
-  "module": "./dist/index.esm.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.esm.js",
-      "module": "./dist/index.esm.js",
-      "browser": "./dist/index.js"
-    }
-  },
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "clean": "rimraf dist",
-    "test": "vitest run",
-    "test:coverage": "vitest run --coverage",
-    "test:watch:coverage": "vitest --coverage",
-    "lint:ci": "eslint . --ext .ts --cache",
-    "format:ci": "prettier --check src",
-    "typecheck": "tsc --noEmit",
-    "build": "rollup -c rollup.config.ts --configPlugin typescript",
-    "preview": "serve",
-    "publish-ci": "tsx scripts/publish-ci.ts"
-  },
-  "devDependencies": {
-    "@rollup/plugin-terser": "^0.4.4",
-    "@rollup/plugin-typescript": "^12.1.0",
-    "@tknf-labs/eslint-config": "^2.1.0",
-    "@tknf-labs/prettier-config": "^2.1.0",
-    "@vitest/coverage-istanbul": "2.1.2",
-    "eslint": "^8.57.1",
-    "jsdom": "^22.1.0",
-    "prettier": "^2.8.8",
-    "rimraf": "^5.0.1",
-    "rollup": "^4.24.0",
-    "serve": "^14.2.0",
-    "tsup": "^7.1.0",
-    "tsx": "^4.19.1",
-    "typescript": "^5.6.3",
-    "vitest": "^2.1.2",
-    "zx": "^8.1.9"
-  },
-  "prettier": "@tknf-labs/prettier-config",
-  "eslintConfig": {
-    "extends": [
-      "@tknf-labs/eslint-config/node"
-    ]
-  }
+	"name": "@tknf/read-files",
+	"version": "2.0.0",
+	"description": "Modern, Promise-based utility for reading files in the browser using the FileReader API",
+	"keywords": [
+		"browser",
+		"file",
+		"upload",
+		"file-reader",
+		"javascript",
+		"typescript"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/tknf/read-files"
+	},
+	"bugs": {
+		"url": "https://github.com/tknf/read-files/issues"
+	},
+	"author": "tknf <dev@tknf.net>",
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org"
+	},
+	"license": "MIT",
+	"type": "module",
+	"main": "./dist/index.cjs",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js",
+			"require": "./dist/index.cjs"
+		}
+	},
+	"files": [
+		"dist"
+	],
+	"unpkg": "./dist/read-files.min.js",
+	"jsdelivr": "./dist/read-files.min.js",
+	"scripts": {
+		"build": "tsup",
+		"test": "vitest run",
+		"test:coverage": "vitest run --coverage",
+		"lint": "biome lint",
+		"format": "biome format",
+		"typecheck": "tsc --noEmit",
+		"prepublishOnly": "npm run build && npm run typecheck && npm run lint"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^1.9.4",
+		"@vitest/coverage-v8": "2.1.2",
+		"jsdom": "^22.1.0",
+		"tsup": "^7.1.0",
+		"typescript": "^5.6.3",
+		"vitest": "^2.1.2"
+	}
 }
